@@ -1,0 +1,36 @@
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+        <h1>Editing Book</h1>
+        <div class="text-danger">
+
+          <% if @book.errors.any? %>
+            <h3 class="mb-2">
+              <%= @book.errors.count %>error prohibited this obj from being saved:
+            </h3>
+            <ul>
+              <% @book.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+           </ul>
+          <% end %>
+        </div>
+        <%= form_with model: @book, local: true do |f| %>
+          <label for="book_title" style="display:block;">Title</label>
+          <div class="mb-3">
+            <%= f.text_field :title, autofocus: true, id:"book_title", placeholder: "タイトル", :class => "form-control" %>
+          </div>
+          <label for="book_opinion" style="display:block;">Opinion</label>
+          <div class="mb-3">
+            <%= f.text_area :body, placeholder: "意見", :class => "form-control" %>
+          </div>
+          <div>
+          <%= f.submit "Update Book", class: "btn btn-success mb-3" %>
+          </div>
+        <% end %>
+        <%= link_to "Show", book_path(@book.id) %>|<%= link_to "Back", books_path %>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,29 @@
+<main>
+  <div class="container px-5 px-sm-0">
+    <div class="row">
+      <%= render 'common', book: @book, user: @user, abook: @abook %>
+      <div class="col-md-8 offset-md-1">
+        <h2>Book detail</h2>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>
+                <%= link_to user_path(@abook.user_id) do %>
+                  <%= image_tag @abook.user.get_profile_image(40,40) %><br />
+                  <p><%= @abook.user.name %></p>
+                <% end %>
+              </td>
+              <td><%= link_to @abook.title,book_path(@abook.id) %></td>
+              <td><%= @abook.body %></td>
+
+              <% if @abook.user == current_user %>
+                <td><%= link_to "Edit", edit_book_path(@abook.id), class: "btn btn-sm btn-success" %></td>
+                <td><%= link_to "Destroy", book_path(@abook), method: :delete, class: "btn btn-sm btn-danger" %></td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
