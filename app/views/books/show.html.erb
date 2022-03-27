@@ -20,10 +20,49 @@
                 <td><%= link_to "Edit", edit_book_path(@abook.id), class: "btn btn-sm btn-success" %></td>
                 <td><%= link_to "Destroy", book_path(@abook), method: :delete, class: "btn btn-sm btn-danger" %></td>
               <% end %>
+              <% if @abook.favorited_by?(current_user) %>
+                <td>
+                  <%= link_to book_favorites_path(@abook), method: :delete do %>
+                    <i class="fas fa-heart"></i><%= @abook.favorites.count %>
+                  <% end %>
+                </td>
+                  <% else %>
+                <td>
+                  <%= link_to book_favorites_path(@abook), method: :post do %>
+                    <i class="far fa-heart"></i><%= @abook.favorites.count %>
+                  <% end %>
+                </td>
+              <% end %>
+              <td>
+                <%= link_to "コメント数: #{@abook.book_comments.count}", book_path(@abook) %>
+              </td>
             </tr>
           </tbody>
+          <tfoot>
+            <% @abook.book_comments.each do |book_comment| %>
+              <tr>
+                <td>
+                  <%= link_to @abook_path do %>
+                    <%= image_tag book_comment.user.get_profile_image(40,40) %><br />
+                    <%= book_comment.user.name %>
+                  <% end %>
+                </td>
+                <td><%= book_comment.comment %></td>
+                <td>
+                  <% if book_comment.user == current_user %>
+                    <%= link_to "Destroy", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn btn-sm btn-danger" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tfoot>
         </table>
+        <div>
+          <%= form_with model: [@abook, @book_comment] do |f| %>
+            <%= f.text_area :comment, rows: '5' %><br />
+            <%= f.submit "送信" %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</main>

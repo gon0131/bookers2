@@ -24,6 +24,7 @@ before_action :person, only:[:edit, :update]
     @book = Book.new
     @abook = Book.find(params[:id])
     @user = User.find(@abook.user_id)
+    @book_comment = BookComment.new
   end
 
   def edit
